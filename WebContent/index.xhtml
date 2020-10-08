@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>Lista de Produtos</title>
+	</h:head>
+	
+	<h:body>
+		
+		<p:panel header="Cadastro de Livros">
+			<h:form id="form1">
+				<p:panelGrid columns="2">
+					<h:outputText value="Nome" />
+					<p:inputText value="#{mb.produto.nome}" />
+					<h:outputText value="Autor" />
+					<p:inputText value="#{mb.produto.autor}" />
+					<h:outputText value="Preço" />
+					<p:inputText value="#{mb.produto.preco}" />
+					<p:commandButton value="Gravar" action="#{mb.gravar()}" update=":form1, form2, form3" ajax="true">	
+					</p:commandButton>				
+				</p:panelGrid>
+				
+				<p:messages></p:messages>
+				<p:growl></p:growl>
+			</h:form>
+		</p:panel>
+		
+		<p:panel header="Consulta de Livros">
+			<h:form id="form2">
+				<p:dataList value="#{mb.produtos}" var="item">
+					#{item.nome}, #{item.preco}
+				</p:dataList>
+			</h:form>
+		</p:panel>
+		
+		<p:panel header="DataTable">
+			<h:form id="form3">
+				<p:dataTable value="#{mb.produtos}" var="linha">
+					
+					<p:column headerText="Id" sortBy="#{linha.id}">
+						<h:outputText value="#{linha.id}" />
+					</p:column>
+					<p:column headerText="Nome" filterBy="#{linha.nome}">
+						<h:outputText value="#{linha.nome}" />
+					</p:column>
+					<p:column headerText="Autor" sortBy="#{linha.autor}">
+						<h:outputText value="#{linha.autor}" />
+					</p:column>
+					<p:column headerText="Preço">
+						<h:outputText value="#{linha.preco}" />
+					</p:column>
+					
+					<p:column headerText="Excluir">
+						<p:commandButton value="Excluir" ajax="true" update=":form3, form2" action="#{mb.excluir()}">
+							<f:setPropertyActionListener value="#{linha}" target="#{mb.produto}" />
+						</p:commandButton>
+					</p:column>
+					
+					
+					
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+		
+	</h:body>
+</html>

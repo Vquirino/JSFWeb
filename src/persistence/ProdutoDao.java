@@ -9,7 +9,7 @@ public class ProdutoDao extends Dao {
 	
 	public void create(Produto p) throws Exception {
 		open();
-		stmt = con.prepareStatement("insert into produto values (null, ?, ?, ?)");
+		stmt = con.prepareStatement("insert into produto values (null,?,?,?)");
 		stmt.setString(1, p.getNome());
 		stmt.setString(2, p.getAutor());
 		stmt.setDouble(3, p.getPreco());
@@ -54,7 +54,7 @@ public class ProdutoDao extends Dao {
 	
 	public void update(Produto p) throws Exception {
 		open();
-		stmt = con.prepareStatement("update produto set nome=?, autor=?, preco=?, where id=?");
+		stmt = con.prepareStatement("update produto set nome=?, autor=?, preco=? where id=?");
 		stmt.setString(1, p.getNome());
 		stmt.setString(2, p.getAutor());
 		stmt.setDouble(3, p.getPreco());

@@ -7,11 +7,19 @@
 
 	<h:head>
 		<title>Lista de Produtos</title>
+		<style type="text/css">
+		.ui-datatable input {
+       		box-sizing: border-box;
+        	width: 100%;
+        	-webkit-box-shadow: none;
+        	box-shadow: none !important;
+    		}
+		</style>
 	</h:head>
 	
 	<h:body>
 		
-		<p:panel header="Cadastro de Livros">
+		<p:panel header="Cadastro dos Livros">
 			<h:form id="form1">
 				<p:panelGrid columns="2">
 					<h:outputText value="Nome" />
@@ -20,7 +28,7 @@
 					<p:inputText value="#{mb.produto.autor}" />
 					<h:outputText value="Preço" />
 					<p:inputText value="#{mb.produto.preco}" />
-					<p:commandButton value="Gravar" action="#{mb.gravar()}" update=":form1, form2, form3" ajax="true">	
+					<p:commandButton value="Gravar" action="#{mb.gravar}" update=":form1,:form2,:form3" ajax="true">	
 					</p:commandButton>				
 				</p:panelGrid>
 				
@@ -29,10 +37,10 @@
 			</h:form>
 		</p:panel>
 		
-		<p:panel header="Consulta de Livros">
+		<p:panel header="Consulta dos Livros">
 			<h:form id="form2">
 				<p:dataList value="#{mb.produtos}" var="item">
-					#{item.nome}, #{item.preco}
+					#{item.nome} , #{item.autor} , #{item.preco}
 				</p:dataList>
 			</h:form>
 		</p:panel>
@@ -40,7 +48,6 @@
 		<p:panel header="DataTable">
 			<h:form id="form3">
 				<p:dataTable value="#{mb.produtos}" var="linha">
-					
 					<p:column headerText="Id" sortBy="#{linha.id}">
 						<h:outputText value="#{linha.id}" />
 					</p:column>
@@ -50,21 +57,39 @@
 					<p:column headerText="Autor" sortBy="#{linha.autor}">
 						<h:outputText value="#{linha.autor}" />
 					</p:column>
-					<p:column headerText="Preço">
+					<p:column headerText="Preco">
 						<h:outputText value="#{linha.preco}" />
 					</p:column>
-					
 					<p:column headerText="Excluir">
-						<p:commandButton value="Excluir" ajax="true" update=":form3, form2" action="#{mb.excluir()}">
+						<p:commandButton value="Excluir" ajax="true" update=":form3,:form2" action="#{mb.excluir}">
 							<f:setPropertyActionListener value="#{linha}" target="#{mb.produto}" />
 						</p:commandButton>
 					</p:column>
-					
-					
-					
+					<p:column headerText="Alterar">
+						<p:commandButton value="Editar" ajax="true" update=":form5" onclick="PF('edita1').show()">
+							<f:setPropertyActionListener value="#{linha}" target="#{mb.produto}" />
+						</p:commandButton>
+					</p:column>
 				</p:dataTable>
 			</h:form>
 		</p:panel>
+		
+		<p:dialog header="Alterar" widgetVar="edita1" modal="true">
+			<h:form id="form5">
+				<h:inputHidden value="#{mb.produto.id}" />
+				
+				<p:panelGrid columns="2">
+					<h:outputText value="Nome" />
+					<p:inputText value="#{mb.produto.nome}" />
+					<h:outputText value="Autor" />
+					<p:inputText value="#{mb.produto.autor}" />
+					<h:outputText value="Preco" />
+					<p:inputText value="#{mb.produto.preco}" />
+					<p:commandButton value="Alterar" action="#{mb.alterar}" onclick="PF('edita1').hide()" ajax="true" update=":form2,:form3">
+					</p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
 		
 	</h:body>
 </html>

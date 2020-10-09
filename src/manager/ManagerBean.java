@@ -14,8 +14,8 @@ import persistence.ProdutoDao;
 @RequestScoped
 public class ManagerBean {
 	
-	private Produto produto; // UNIDADE
-	private List<Produto> produtos; // GRUPO (CONSULTA O BANCO)
+	private Produto produto; // ENTRADE
+	private List<Produto> produtos; // LISTA
 	
 	public ManagerBean() {
 		this.produto = new Produto();
@@ -67,12 +67,11 @@ public class ManagerBean {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			fc.addMessage(null, new FacesMessage("Erro!" + ex.getMessage()));
+			fc.addMessage(null, new FacesMessage("Erro!" + ex.getLocalizedMessage()));
 		}
 	}
 	
 	public void alterar() {
-		System.out.println("Alterando o produto: " + produto);
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
 			new ProdutoDao().update(produto);
@@ -81,7 +80,7 @@ public class ManagerBean {
 		}
 		 catch (Exception ex) {
 			ex.printStackTrace();
-			fc.addMessage(null, new FacesMessage("Erro!" + ex.getMessage()));
+			fc.addMessage(null, new FacesMessage("Erro!" + ex.getLocalizedMessage()));
 		}
 	}
 	
